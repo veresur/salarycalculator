@@ -16,24 +16,25 @@ type freshMarriage = {
 export const FreshMerriage: React.FunctionComponent<freshMarriage> = ({id, labelText, currentPerson, setFreshMarriage}) => {
 	const [freshMarriageToggle, setFreshMarriageToggle] = useState<boolean>(false);
 	const [marriageDateString, setMarriageDateString] = useState<string>("");
+	const [isDiscountApplicable, setIsDiscountApplicable] = useState<boolean>(false);
 
 	useEffect(() => {
 		if (!freshMarriageToggle) {
 			setMarriageDateString('');
-			setFreshMarriage(false);
+			setIsDiscountApplicable(false);
 		}
 	}, [freshMarriageToggle])
 
 	useEffect(() => {
 		updateFreshMarriageDiscount();
-	}, [marriageDateString, freshMarriageToggle])
+	}, [marriageDateString, freshMarriageToggle, isDiscountApplicable])
 
 	const isDateValid = (dateString: string): boolean => {
 		return /^\d{4}\-(0[1-9]|1[012])\-(0[1-9]|[12][0-9]|3[01])$/.test(dateString);
 	}
 
 	const updateFreshMarriageDiscount = () => {
-		setFreshMarriage(isFreshMarriageDiscountApplicable());
+		setIsDiscountApplicable(isFreshMarriageDiscountApplicable());
 		console.log(isFreshMarriageDiscountApplicable());
 	}
 
@@ -65,7 +66,7 @@ export const FreshMerriage: React.FunctionComponent<freshMarriage> = ({id, label
 				<Switch
 					id={id}
 					checked={freshMarriageToggle}
-					onCheckedChange={(v) => {setFreshMarriageToggle(v);setMarriageDateString(''); if(!v) setFreshMarriage(false)}}
+					onCheckedChange={(v) => {setFreshMarriageToggle(v);}}
 				/>
 				<Label className="font-semibold" htmlFor={id}>{labelText}</Label>
 				{
@@ -108,7 +109,7 @@ export const FreshMerriage: React.FunctionComponent<freshMarriage> = ({id, label
 				}
 
 				{ (freshMarriageToggle && marriageDateString.length > 0 ) && 
-					((isFreshMarriageDiscountApplicable())
+					((isDiscountApplicable)
 					?
 						<span className="inline-flex items-center rounded-md bg-green-50 px-2 py-1 text-xs font-medium text-green-700 ring-1 ring-inset ring-green-600/20">jogosult</span>
 					:
