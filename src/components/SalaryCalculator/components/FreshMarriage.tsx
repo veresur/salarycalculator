@@ -3,7 +3,7 @@ import { Switch } from "@/components/ui/switch"
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from "@/components/ui/alert-dialog"
 import { Button } from "@/components/ui/button"
 import { Person } from "@/lib/Person"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { Input } from "@/components/ui/input"
 
 type freshMarriage = {
@@ -17,16 +17,28 @@ export const FreshMerriage: React.FunctionComponent<freshMarriage> = ({id, label
 	const [freshMarriageToggle, setFreshMarriageToggle] = useState<boolean>(false);
 	const [marriageDateString, setMarriageDateString] = useState<string>("");
 
+	useEffect(() => {
+		if (!freshMarriageToggle) {
+			setMarriageDateString('');
+			setFreshMarriage(false);
+		}
+	}, [freshMarriageToggle])
+
+	useEffect(() => {
+		updateFreshMarriageDiscount();
+	}, [marriageDateString, freshMarriageToggle])
+
 	const isDateValid = (dateString: string): boolean => {
 		return /^\d{4}\-(0[1-9]|1[012])\-(0[1-9]|[12][0-9]|3[01])$/.test(dateString);
 	}
 
-	const updateFreshMarriageDiscount = (dateString: string) => {
-		setFreshMarriage(isFreshMarriageDiscountApplicable(dateString));
+	const updateFreshMarriageDiscount = () => {
+		setFreshMarriage(isFreshMarriageDiscountApplicable());
+		console.log(isFreshMarriageDiscountApplicable());
 	}
 
-	const isFreshMarriageDiscountApplicable = (dateString: string):boolean => {
-		if (!isDateValid(dateString)) return false;
+	const isFreshMarriageDiscountApplicable = ():boolean => {
+		if (!isDateValid(marriageDateString)) return false;
 		
 		const today = new Date();
 		const marriageDate = new Date(Date.parse(marriageDateString));
@@ -71,7 +83,7 @@ export const FreshMerriage: React.FunctionComponent<freshMarriage> = ({id, label
 									A kedvezmény először a házasságkötést követő hónapra vehető igénybe és a házassági életközösség alatt legfeljebb 24 hónapon keresztül jár.
 								</AlertDialogDescription>
 								<AlertDialogTitle>Add meg a házasságkötés dátumát:</AlertDialogTitle>
-								<Input placeholder="YYYY-MM-DD" value={marriageDateString} onChange={(e) => {setMarriageDateString(e.target.value);updateFreshMarriageDiscount(e.target.value)}}/>
+								<Input placeholder="YYYY-MM-DD" value={marriageDateString} onChange={(e) => {setMarriageDateString(e.target.value);}}/>
 								<span className="text-sm mt-5 text-muted-foreground text-black/50 inline-block">
 									{
 										isDateValid(marriageDateString)
@@ -88,7 +100,7 @@ export const FreshMerriage: React.FunctionComponent<freshMarriage> = ({id, label
 								</span>
 							</AlertDialogHeader>
 							<AlertDialogFooter>
-								<AlertDialogCancel onClick={() => {setFreshMarriageToggle(false);setMarriageDateString('');setFreshMarriage(false);}}>Mésge</AlertDialogCancel>
+								<AlertDialogCancel onClick={() => {setFreshMarriageToggle(false);}}>Mésge</AlertDialogCancel>
 								<AlertDialogAction disabled={!isDateValid(marriageDateString)}>Mentés</AlertDialogAction>
 							</AlertDialogFooter>
 						</AlertDialogContent>
@@ -96,7 +108,7 @@ export const FreshMerriage: React.FunctionComponent<freshMarriage> = ({id, label
 				}
 
 				{ (freshMarriageToggle && marriageDateString.length > 0 ) && 
-					(isFreshMarriageDiscountApplicable(marriageDateString)
+					((isFreshMarriageDiscountApplicable())
 					?
 						<span className="inline-flex items-center rounded-md bg-green-50 px-2 py-1 text-xs font-medium text-green-700 ring-1 ring-inset ring-green-600/20">jogosult</span>
 					:
