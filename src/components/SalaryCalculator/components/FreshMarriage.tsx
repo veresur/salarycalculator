@@ -27,7 +27,11 @@ export const FreshMerriage: React.FunctionComponent<freshMarriage> = ({id, label
 
 	useEffect(() => {
 		updateFreshMarriageDiscount();
-	}, [marriageDateString, freshMarriageToggle, isDiscountApplicable])
+	}, [marriageDateString, freshMarriageToggle])
+
+	useEffect(() => {
+		setFreshMarriage(isDiscountApplicable);
+	}, [isDiscountApplicable])
 
 	const isDateValid = (dateString: string): boolean => {
 		return /^\d{4}\-(0[1-9]|1[012])\-(0[1-9]|[12][0-9]|3[01])$/.test(dateString);
@@ -35,7 +39,6 @@ export const FreshMerriage: React.FunctionComponent<freshMarriage> = ({id, label
 
 	const updateFreshMarriageDiscount = () => {
 		setIsDiscountApplicable(isFreshMarriageDiscountApplicable());
-		console.log(isFreshMarriageDiscountApplicable());
 	}
 
 	const isFreshMarriageDiscountApplicable = ():boolean => {
