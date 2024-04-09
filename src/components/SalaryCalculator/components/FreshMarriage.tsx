@@ -10,23 +10,34 @@ type freshMarriage = {
 	id:  string,
 	labelText: string,
 	setFreshMarriage: (applicable: boolean) => void,
-	currentPerson: Person
+	currentPerson: Person,
+	setFreshMarriageToggleField: (value: boolean) => void,
+	setMarriageDateStringField: (value: string) => void
 }
 
-export const FreshMerriage: React.FunctionComponent<freshMarriage> = ({id, labelText, currentPerson, setFreshMarriage}) => {
+export const FreshMerriage: React.FunctionComponent<freshMarriage> = ({id, labelText, currentPerson, setFreshMarriage, setFreshMarriageToggleField, setMarriageDateStringField}) => {
 	const [freshMarriageToggle, setFreshMarriageToggle] = useState<boolean>(false);
 	const [marriageDateString, setMarriageDateString] = useState<string>("");
 	const [isDiscountApplicable, setIsDiscountApplicable] = useState<boolean>(false);
+
+	useEffect(() => {
+		setFreshMarriageToggle(currentPerson.freshMarriageToggle);
+		setMarriageDateString(currentPerson.marriageDateString);
+		setIsDiscountApplicable(currentPerson.freshMarriage);
+		//console.log('init set');
+	}, [currentPerson])
 
 	useEffect(() => {
 		if (!freshMarriageToggle) {
 			setMarriageDateString('');
 			setIsDiscountApplicable(false);
 		}
+		setFreshMarriageToggleField(freshMarriageToggle);
 	}, [freshMarriageToggle])
 
 	useEffect(() => {
 		updateFreshMarriageDiscount();
+		setMarriageDateStringField(marriageDateString);
 	}, [marriageDateString, freshMarriageToggle])
 
 	useEffect(() => {
@@ -69,7 +80,7 @@ export const FreshMerriage: React.FunctionComponent<freshMarriage> = ({id, label
 				<Switch
 					id={id}
 					checked={freshMarriageToggle}
-					onCheckedChange={(v) => {setFreshMarriageToggle(v);}}
+					onCheckedChange={setFreshMarriageToggle}
 				/>
 				<Label className="font-semibold" htmlFor={id}>{labelText}</Label>
 				{

@@ -1,38 +1,42 @@
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label"
 import { Switch } from "@/components/ui/switch"
+import { Person } from "@/lib/Person";
 import { useEffect, useState } from "react";
 
 type familyTaxProps = {
-	setFamilyTaxDiscountValue: (value: number) => void
+	setFamilyTaxDependent: (value: number) => void,
+	setFamilyTaxFavored: (value: number) => void,
+	setFamilyTaxToggleField: (value: boolean) => void,
+	currentPerson: Person
 }
 
-export const FamilyTax : React.FunctionComponent<familyTaxProps> = ({setFamilyTaxDiscountValue}) => {
+export const FamilyTax : React.FunctionComponent<familyTaxProps> = ({setFamilyTaxDependent,setFamilyTaxFavored,  setFamilyTaxToggleField, currentPerson}) => {
 	const [familyTaxToggle, setFamilyTaxToggle] = useState<boolean>(false);
 	const [dependentCounter, setDependentCounter] = useState<number>(0);
 	const [favoredDependentCounter, setFavoredDependentCounter] = useState<number>(0);
 
 	useEffect(() => {
+		setFamilyTaxToggle(currentPerson.familyTaxDiscountToggle);
+		setDependentCounter(currentPerson.familyTaxDependent);
+		setFavoredDependentCounter(currentPerson.familyTaxFavored);
+		console.log(currentPerson.familyTaxDiscountToggle);
+	}, [currentPerson])
 
-		let factor: number = 0;
-		switch (favoredDependentCounter) {
-			case 1:
-				factor = 10000;
-				break;
-			case 2:
-				factor = 20000;
-				break;
-			case 3:
-				factor = 33000;
-				break;
-			default:
-				factor = 0;
-				break;
-		}
+	useEffect(() => {
+		setFamilyTaxDependent(dependentCounter);
+		setFamilyTaxFavored(favoredDependentCounter);
 
-		setFamilyTaxDiscountValue(factor * dependentCounter);
-
+		console.log('field set to: ', familyTaxToggle);
 	}, [dependentCounter, favoredDependentCounter]);
+
+	useEffect(() => {
+		setFamilyTaxToggleField(familyTaxToggle);
+		if (!familyTaxToggle) {
+			setDependentCounter(0);
+			setFavoredDependentCounter(0);
+		}
+	}, [familyTaxToggle])
 
 	return (
 		<>
@@ -40,6 +44,7 @@ export const FamilyTax : React.FunctionComponent<familyTaxProps> = ({setFamilyTa
 				<Switch
 					id='family-tax'
 					onCheckedChange={setFamilyTaxToggle}
+					checked={familyTaxToggle}
 				/>
 				<Label className="font-semibold" htmlFor='family-tax'>Családi kedvezmény</Label>
 			</div>

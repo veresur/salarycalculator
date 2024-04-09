@@ -6,7 +6,11 @@ export class Person {
 	under25: boolean;
 	personalTaxDiscount: boolean;
 	freshMarriage: boolean;
-	familyTaxDiscount: number;
+	freshMarriageToggle: boolean;
+	familyTaxDiscountToggle: boolean;
+	marriageDateString: string;
+	familyTaxFavored: number;
+	familyTaxDependent: number;
 
 	constructor () {
 		this.name = "";
@@ -16,10 +20,56 @@ export class Person {
 		this.under25 = false;
 		this.personalTaxDiscount = false;
 		this.freshMarriage = false;
-		this.familyTaxDiscount = 0;
+		this.freshMarriageToggle = false;
+		this.familyTaxDiscountToggle = false;
+		this.marriageDateString = "";
+		this.familyTaxDependent = 0;
+		this.familyTaxFavored = 0;
 	}
 
 	calcNet = ():number => {
-		return Math.round(this.gross * 0.5);
+		let tax: number = 0;
+
+		if(this.under25 && this.gross > 499952) {
+			tax += ((this.gross - 499952) * 0.15);
+		}
+
+		if(!this.under25) {
+			tax += (this.gross * 0.15);
+		}
+		
+		tax += (this.gross * 0.185)
+
+		if (this.personalTaxDiscount) {
+			tax -= 77300;
+		}
+
+		
+
+		let factor: number = 0;
+		switch (this.familyTaxFavored) {
+			case 1:
+				factor = 10000;
+				break;
+			case 2:
+				factor = 20000;
+				break;
+			case 3:
+				factor = 33000;
+				break;
+			default:
+				factor = 0;
+				break;
+		}
+
+		tax -= (factor * this.familyTaxDependent);
+
+		let net: number = tax > 0 ? this.gross - tax : this.gross;
+
+		if (this.freshMarriage) {
+			net += 5000;
+		}
+
+		return net;
 	}
 }

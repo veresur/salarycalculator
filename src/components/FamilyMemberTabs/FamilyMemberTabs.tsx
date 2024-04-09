@@ -5,10 +5,11 @@ import { Person } from "@/lib/Person";
 type familyMembersTabProps = {
 	family: Person[],
 	currentIndex: number,
-	addNewPerson: () => void
+	addNewPerson: () => void,
+	loadPerson: (id: string) => void
 }
 
-const FamilyMemberTabs : React.FunctionComponent<familyMembersTabProps> = ({family, currentIndex, addNewPerson}) => {
+const FamilyMemberTabs : React.FunctionComponent<familyMembersTabProps> = ({family, currentIndex, addNewPerson, loadPerson}) => {
 	return (
 		<div className='rounded-lg flex'>
 			<div className='bg-slate-300 rounded-lg flex'>
@@ -18,6 +19,7 @@ const FamilyMemberTabs : React.FunctionComponent<familyMembersTabProps> = ({fami
 							<Button 
 								className={'m-1 text-slate-900 font-bold hover:text-white min-w-10 ' + (family[currentIndex].id == person.id ? 'bg-white' : 'bg-slate-300')}
 								key={person.id}
+								onClick={() => loadPerson(person.id)}
 							>
 								{person.name}
 							</Button>

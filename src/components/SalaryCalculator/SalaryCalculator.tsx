@@ -77,10 +77,42 @@ export const SalaryCalculator : React.FunctionComponent<salaryCalculatorProps> =
 		setCurrentPerson(currentPerson);
 	}
 
-	const setCurrentFamilyTaxDiscountValue = (value: number): void => {
+	const setCurrentFamilyTaxDependent = (value: number): void => {
 		const currentPerson: Person = family[currentIndex];
 
-		currentPerson.familyTaxDiscount = value;
+		currentPerson.familyTaxDependent = value;
+
+		setCurrentPerson(currentPerson);
+	}
+
+	const setCurrentFamilyTaxFavored = (value: number): void => {
+		const currentPerson: Person = family[currentIndex];
+
+		currentPerson.familyTaxFavored = value;
+
+		setCurrentPerson(currentPerson);
+	}
+
+	const setCurrentFreshMarriageToggle = (value: boolean): void => {
+		const currentPerson: Person = family[currentIndex];
+
+		currentPerson.freshMarriageToggle = value;
+
+		setCurrentPerson(currentPerson);
+	}
+
+	const setCurrentMarriageDateString = (value: string): void => {
+		const currentPerson: Person = family[currentIndex];
+
+		currentPerson.marriageDateString = value;
+
+		setCurrentPerson(currentPerson);
+	}
+
+	const setCurrentFamilyTaxDiscountToggle = (value: boolean): void => {
+		const currentPerson: Person = family[currentIndex];
+
+		currentPerson.familyTaxDiscountToggle = value;
 
 		setCurrentPerson(currentPerson);
 	}
@@ -148,6 +180,8 @@ export const SalaryCalculator : React.FunctionComponent<salaryCalculatorProps> =
 				id='fresh-merriage'
 				setFreshMarriage={setCurrentFreshMarriage}
 				currentPerson={family[currentIndex]}
+				setFreshMarriageToggleField={setCurrentFreshMarriageToggle}
+				setMarriageDateStringField={setCurrentMarriageDateString}
 			/>
 			
 			<SwitchComponent
@@ -160,7 +194,10 @@ export const SalaryCalculator : React.FunctionComponent<salaryCalculatorProps> =
 			/>
 
 			<FamilyTax
-				setFamilyTaxDiscountValue={setCurrentFamilyTaxDiscountValue}
+				setFamilyTaxDependent={setCurrentFamilyTaxDependent}
+				setFamilyTaxFavored={setCurrentFamilyTaxFavored}
+				setFamilyTaxToggleField={setCurrentFamilyTaxDiscountToggle}
+				currentPerson={family[currentIndex]}
 			/>
 
 			<p>{family[currentIndex].freshMarriage ? 'true' : 'false'}</p>

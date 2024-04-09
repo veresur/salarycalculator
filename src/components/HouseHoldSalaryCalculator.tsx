@@ -1,7 +1,7 @@
 import { Person } from "@/lib/Person";
 import { useState } from "react";
 import FamilyMemberTabs from "./FamilyMemberTabs/FamilyMemberTabs";
-import HouseholdSummary from "./HouseholdSummary/HouseholdSummary";
+import { HouseholdSummary } from "./HouseholdSummary/HouseholdSummary";
 import SalaryCalculator from "./SalaryCalculator/SalaryCalculator";
 
 const HouseholdSalaryCalculator = () => {
@@ -24,6 +24,15 @@ const HouseholdSalaryCalculator = () => {
 		setCurrentIndex(family.length);
 	}
 
+	const loadPersonById = (id: string): void => {
+		for (let i = 0; i < family.length; i++) {
+			if (family[i].id == id) {
+				setCurrentIndex(i);
+				return;
+			}
+		}
+	}
+
 	return (
 		<div className='bg-slate-100 p-2'>
 		<header className='mt-0 text-left'>
@@ -31,6 +40,7 @@ const HouseholdSalaryCalculator = () => {
 				family={family}
 				currentIndex={currentIndex}
 				addNewPerson={addNewPerson}
+				loadPerson={loadPersonById}
 			/>
 		</header>
 		<main>
@@ -41,7 +51,7 @@ const HouseholdSalaryCalculator = () => {
 					currentIndex={currentIndex}
 					deletePersonById={deletePersonById}
 				/>
-				<HouseholdSummary />
+				<HouseholdSummary family={family} />
 			</div>
 		</main>
 		</div>
