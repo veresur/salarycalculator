@@ -200,8 +200,6 @@ export const SalaryCalculator : React.FunctionComponent<salaryCalculatorProps> =
 				currentPerson={family[currentIndex]}
 			/>
 
-			<p>{family[currentIndex].freshMarriage ? 'true' : 'false'}</p>
-
 			<div className="flex flex-col justify-end items-center mt-12">
 				<div className="font-semibold text-xl">
 					Számított nettó bér:
