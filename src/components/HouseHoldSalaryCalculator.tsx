@@ -35,25 +35,25 @@ const HouseholdSalaryCalculator = () => {
 
 	return (
 		<div className='bg-slate-100 p-2'>
-		<header className='mt-0 text-left'>
-			<FamilyMemberTabs
-				family={family}
-				currentIndex={currentIndex}
-				addNewPerson={addNewPerson}
-				loadPerson={loadPersonById}
-			/>
-		</header>
-		<main>
-			<div className="grid sm:grid-cols-1 lg:grid-cols-2 gap-4 mt-2">
-				<SalaryCalculator
+			<header className='mt-0 text-left'>
+				<FamilyMemberTabs
 					family={family}
-					setFamily={setFamily}
 					currentIndex={currentIndex}
-					deletePersonById={deletePersonById}
+					addNewPerson={addNewPerson}
+					loadPerson={loadPersonById}
 				/>
-				<HouseholdSummary family={family} />
-			</div>
-		</main>
+			</header>
+			<main>
+				<div className="grid sm:grid-cols-1 lg:grid-cols-2 gap-4 mt-2">
+					<SalaryCalculator
+						family={family}
+						setFamily={setFamily}
+						currentIndex={currentIndex}
+						deletePersonById={deletePersonById}
+					/>
+					<HouseholdSummary family={family} />
+				</div>
+			</main>
 		</div>
 	);
 };
