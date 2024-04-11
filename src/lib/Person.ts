@@ -70,6 +70,6 @@ export class Person {
 			net += 5000;
 		}
 
-		return net;
+		return Math.round(net);
 	}
 }
