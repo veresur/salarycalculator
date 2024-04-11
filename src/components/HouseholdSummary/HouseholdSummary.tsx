@@ -34,7 +34,7 @@ export const HouseholdSummary :React.FunctionComponent<houseHoldSummaryProps>  =
 						return (
 							<TableRow key={person.id}>
 								<TableCell className="font-medium">{person.name}</TableCell>
-								<TableCell>{person.calcNet()}</TableCell>
+								<TableCell>{person.calcNet().toLocaleString().concat(' Ft')}</TableCell>
 							</TableRow>
 						)
 					})
