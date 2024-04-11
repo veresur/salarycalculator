@@ -41,7 +41,7 @@ export const HouseholdSummary :React.FunctionComponent<houseHoldSummaryProps>  =
 				}
 			</TableBody>
 			<TableFooter>
-				<TableRow>
+				<TableRow className="font-bold">
 					<TableCell>Összesen</TableCell>
 					<TableCell className="text-center">
 						{
