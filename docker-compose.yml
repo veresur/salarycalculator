@@ -4,6 +4,7 @@ services:
       context: .
       pull: false
     image: salary-calculator
+    container_name: salary-calculator
     networks:
       - fintrack-network
 
