@@ -6,3 +6,8 @@ services:
     image: salary-calculator
     networks:
       - fintrack-network
+
+networks:
+  fintrack-network:
+    external: true
+    name: fintrack-network
