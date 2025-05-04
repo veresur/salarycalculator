@@ -1,11 +1,15 @@
-FROM node:23-slim
+FROM node:23-slim AS builder
 
 WORKDIR /app
-
-COPY . .
-
+COPY package*.json ./
 RUN npm ci
+COPY . .
+RUN npm run build
 
-EXPOSE 4173
+# Stage 2: Serve with Nginx
+FROM nginx:alpine
+COPY --from=builder /app/dist /usr/share/nginx/html
 
-CMD ["npm", "run", "preview"]
+EXPOSE 80
+CMD ["nginx", "-g", "daemon off;"]
+
