@@ -15,7 +15,6 @@ const HouseholdSalaryCalculator = () => {
 			setFamily(family.filter(person => person.id !== id));
 			if (currentIndex == family.length - 1) setCurrentIndex(family.length - 2);
 		}
-
 	}
 
 	const addNewPerson = (): void => {

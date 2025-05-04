@@ -1,0 +1,8 @@
+services:
+  salary-calculator:
+    build:
+      context: .
+      pull: false
+    image: salary-calculator
+    networks:
+      - fintrack-network
